@@ -228,7 +228,6 @@ class TransactionDetailsController extends GetxController
         countotal_Amount_discounted().value);
     total = total * installment_Days_to_pay.value +
         countotal_Amount_discounted().value;
-
     return total.obs;
   }
 
@@ -471,18 +470,18 @@ class TransactionDetailsController extends GetxController
               align: LineText.ALIGN_LEFT,
               linefeed: 1));
         }
-        list.add(LineText(
-            type: LineText.TYPE_TEXT,
-            content: 'Subtotal : ' +
-                count_total_amount_perItem_no_variants(
-                        discounttype: finalItemsList[i].itemDiscountType,
-                        discount: double.parse(finalItemsList[i].itemDiscount),
-                        quantity: finalItemsList[i].itemQuantity,
-                        itemprice: double.parse(finalItemsList[i].itemPrice))
-                    .toStringAsFixed(2),
-            weight: 0,
-            align: LineText.ALIGN_LEFT,
-            linefeed: 1));
+        // list.add(LineText(
+        //     type: LineText.TYPE_TEXT,
+        //     content: 'Subtotal : ' +
+        //         count_total_amount_perItem_no_variants(
+        //                 discounttype: finalItemsList[i].itemDiscountType,
+        //                 discount: double.parse(finalItemsList[i].itemDiscount),
+        //                 quantity: finalItemsList[i].itemQuantity,
+        //                 itemprice: double.parse(finalItemsList[i].itemPrice))
+        //             .toStringAsFixed(2),
+        //     weight: 0,
+        //     align: LineText.ALIGN_LEFT,
+        //     linefeed: 1));
       } else {
         for (var z = 0; z < finalItemsList[i].itemListOfVariants.length; z++) {
           if (finalItemsList[i].itemListOfVariants[z].variantQuantity != 0) {
@@ -546,27 +545,27 @@ class TransactionDetailsController extends GetxController
                   align: LineText.ALIGN_LEFT,
                   linefeed: 1));
             }
-            list.add(LineText(
-                type: LineText.TYPE_TEXT,
-                content: 'Subtotal:' +
-                    variant_receipt_count_total_amount(
-                            itemprice: double.parse(finalItemsList[i]
-                                .itemListOfVariants[z]
-                                .variantPrice),
-                            quantity: finalItemsList[i]
-                                .itemListOfVariants[z]
-                                .variantQuantity,
-                            discount: double.parse(finalItemsList[i]
-                                .itemListOfVariants[z]
-                                .variantDiscount),
-                            discounttype: finalItemsList[i]
-                                .itemListOfVariants[z]
-                                .variantDiscountType)
-                        .toStringAsFixed(2),
-                weight: 1,
-                height: 0,
-                align: LineText.ALIGN_LEFT,
-                linefeed: 1));
+            // list.add(LineText(
+            //     type: LineText.TYPE_TEXT,
+            //     content: 'Subtotal:' +
+            //         variant_receipt_count_total_amount(
+            //                 itemprice: double.parse(finalItemsList[i]
+            //                     .itemListOfVariants[z]
+            //                     .variantPrice),
+            //                 quantity: finalItemsList[i]
+            //                     .itemListOfVariants[z]
+            //                     .variantQuantity,
+            //                 discount: double.parse(finalItemsList[i]
+            //                     .itemListOfVariants[z]
+            //                     .variantDiscount),
+            //                 discounttype: finalItemsList[i]
+            //                     .itemListOfVariants[z]
+            //                     .variantDiscountType)
+            //             .toStringAsFixed(2),
+            //     weight: 1,
+            //     height: 0,
+            //     align: LineText.ALIGN_LEFT,
+            //     linefeed: 1));
           } else {}
         }
       }
@@ -574,11 +573,30 @@ class TransactionDetailsController extends GetxController
     list.add(LineText(linefeed: 1));
     list.add(LineText(
         type: LineText.TYPE_TEXT,
-        content: 'Total Price: ' +
-            countotal_Amount_discounted().value.toStringAsFixed(1).toString(),
+        content: 'Subtotal: P' +
+            not_discounted_amount().value.toStringAsFixed(2).toString(),
         align: LineText.ALIGN_LEFT,
         weight: 2,
         linefeed: 1));
+    list.add(LineText(linefeed: 1));
+    if (total_discount().value != 0) {
+      list.add(LineText(
+          type: LineText.TYPE_TEXT,
+          content: 'Discount: P' +
+              total_discount().value.toStringAsFixed(2).toString(),
+          align: LineText.ALIGN_LEFT,
+          weight: 2,
+          linefeed: 1));
+    }
+    list.add(LineText(linefeed: 1));
+    list.add(LineText(
+        type: LineText.TYPE_TEXT,
+        content: 'Total: P' +
+            countotal_Amount_discounted().value.toStringAsFixed(2).toString(),
+        align: LineText.ALIGN_LEFT,
+        weight: 2,
+        linefeed: 1));
+    list.add(LineText(linefeed: 1));
     list.add(LineText(
         type: LineText.TYPE_TEXT,
         content: 'Type of Payment:  $paymentype',
@@ -686,18 +704,18 @@ class TransactionDetailsController extends GetxController
               align: LineText.ALIGN_LEFT,
               linefeed: 1));
         }
-        list.add(LineText(
-            type: LineText.TYPE_TEXT,
-            content: 'Subtotal : ' +
-                count_total_amount_perItem_no_variants(
-                        discounttype: finalItemsList[i].itemDiscountType,
-                        discount: double.parse(finalItemsList[i].itemDiscount),
-                        quantity: finalItemsList[i].itemQuantity,
-                        itemprice: double.parse(finalItemsList[i].itemPrice))
-                    .toStringAsFixed(2),
-            weight: 0,
-            align: LineText.ALIGN_LEFT,
-            linefeed: 1));
+        // list.add(LineText(
+        //     type: LineText.TYPE_TEXT,
+        //     content: 'Subtotal : ' +
+        //         count_total_amount_perItem_no_variants(
+        //                 discounttype: finalItemsList[i].itemDiscountType,
+        //                 discount: double.parse(finalItemsList[i].itemDiscount),
+        //                 quantity: finalItemsList[i].itemQuantity,
+        //                 itemprice: double.parse(finalItemsList[i].itemPrice))
+        //             .toStringAsFixed(2),
+        //     weight: 0,
+        //     align: LineText.ALIGN_LEFT,
+        //     linefeed: 1));
       } else {
         for (var z = 0; z < finalItemsList[i].itemListOfVariants.length; z++) {
           if (finalItemsList[i].itemListOfVariants[z].variantQuantity != 0) {
@@ -761,27 +779,27 @@ class TransactionDetailsController extends GetxController
                   align: LineText.ALIGN_LEFT,
                   linefeed: 1));
             }
-            list.add(LineText(
-                type: LineText.TYPE_TEXT,
-                content: 'Subtotal:' +
-                    variant_receipt_count_total_amount(
-                            itemprice: double.parse(finalItemsList[i]
-                                .itemListOfVariants[z]
-                                .variantPrice),
-                            quantity: finalItemsList[i]
-                                .itemListOfVariants[z]
-                                .variantQuantity,
-                            discount: double.parse(finalItemsList[i]
-                                .itemListOfVariants[z]
-                                .variantDiscount),
-                            discounttype: finalItemsList[i]
-                                .itemListOfVariants[z]
-                                .variantDiscountType)
-                        .toStringAsFixed(2),
-                weight: 1,
-                height: 0,
-                align: LineText.ALIGN_LEFT,
-                linefeed: 1));
+            // list.add(LineText(
+            //     type: LineText.TYPE_TEXT,
+            //     content: 'Subtotal:' +
+            //         variant_receipt_count_total_amount(
+            //                 itemprice: double.parse(finalItemsList[i]
+            //                     .itemListOfVariants[z]
+            //                     .variantPrice),
+            //                 quantity: finalItemsList[i]
+            //                     .itemListOfVariants[z]
+            //                     .variantQuantity,
+            //                 discount: double.parse(finalItemsList[i]
+            //                     .itemListOfVariants[z]
+            //                     .variantDiscount),
+            //                 discounttype: finalItemsList[i]
+            //                     .itemListOfVariants[z]
+            //                     .variantDiscountType)
+            //             .toStringAsFixed(2),
+            //     weight: 1,
+            //     height: 0,
+            //     align: LineText.ALIGN_LEFT,
+            //     linefeed: 1));
           }
         }
       }
@@ -789,12 +807,30 @@ class TransactionDetailsController extends GetxController
     list.add(LineText(linefeed: 1));
     list.add(LineText(
         type: LineText.TYPE_TEXT,
-        content:
-            'Order amount: ${countotal_Amount_discounted().value.toStringAsFixed(2)}',
-        weight: 2,
+        content: 'Subtotal: P' +
+            not_discounted_amount().value.toStringAsFixed(2).toString(),
         align: LineText.ALIGN_LEFT,
+        weight: 2,
         linefeed: 1));
-
+    list.add(LineText(linefeed: 1));
+    if (total_discount().value != 0) {
+      list.add(LineText(
+          type: LineText.TYPE_TEXT,
+          content: 'Discount: P' +
+              total_discount().value.toStringAsFixed(2).toString(),
+          align: LineText.ALIGN_LEFT,
+          weight: 2,
+          linefeed: 1));
+    }
+    list.add(LineText(linefeed: 1));
+    list.add(LineText(
+        type: LineText.TYPE_TEXT,
+        content: 'Total: P' +
+            countotal_Amount_discounted().value.toStringAsFixed(2).toString(),
+        align: LineText.ALIGN_LEFT,
+        weight: 2,
+        linefeed: 1));
+    list.add(LineText(linefeed: 1));
     list.add(LineText(
         type: LineText.TYPE_TEXT,
         content: 'Days to pay: ${installment_Days_to_pay.value.toString()}',

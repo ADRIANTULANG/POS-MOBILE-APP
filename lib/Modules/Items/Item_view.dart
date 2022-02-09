@@ -423,6 +423,71 @@ class ItemView extends GetView<ItemController> {
                                       ),
                                     ),
                             ),
+                            controller.isSelect.value == true
+                                ? Container()
+                                : Container(
+                                    color: Colors.grey[200],
+                                    padding: EdgeInsets.all(10),
+                                    child: Material(
+                                      elevation: 5.0,
+
+                                      borderRadius: BorderRadius.circular(30.0),
+                                      // color: Gradient.linear(from, to, colors),
+                                      child: Ink(
+                                        decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                              begin: Alignment.bottomLeft,
+                                              end: Alignment.topRight,
+                                              colors: [
+                                                Colors.cyanAccent,
+                                                Colors.greenAccent,
+                                                Colors.lightBlue,
+                                                Colors.tealAccent
+                                              ]),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(80.0)),
+                                        ),
+                                        child: MaterialButton(
+                                          // color:
+                                          minWidth:
+                                              MediaQuery.of(context).size.width,
+                                          padding: EdgeInsets.fromLTRB(
+                                              20.0, 15.0, 20.0, 15.0),
+                                          onPressed: () {
+                                            if (controller
+                                                .categoryList.isEmpty) {
+                                              controller
+                                                  .showDialogEmptyCategory();
+                                            } else {
+                                              controller.itemName.clear();
+                                              controller.itemDescription
+                                                  .clear();
+                                              controller.itemCategory.clear();
+                                              controller.itemPrice.clear();
+                                              controller.selectedImage.value =
+                                                  "";
+                                              controller.variantList.clear();
+                                              controller.filename.value = '';
+                                              controller.dropdownvalue.value =
+                                                  'Select Category';
+                                              controller.clearTextField();
+                                              Get.to(() => ItemFormView());
+                                            }
+                                          },
+                                          child: Text("ADD ITEM",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                      fontSize: sizer.font(
+                                                          fontsize: 10,
+                                                          context: context))
+                                                  .copyWith(
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.bold)),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                             SizedBox(
                               height: sizer.height(height: 1, context: context),
                             ),
@@ -430,43 +495,43 @@ class ItemView extends GetView<ItemController> {
                         ),
             ),
           ),
-          floatingActionButton: controller.isSelect.value == true
-              ? null
-              : FloatingActionButton(
-                  onPressed: () {
-                    if (controller.categoryList.isEmpty) {
-                      controller.showDialogEmptyCategory();
-                    } else {
-                      controller.itemName.clear();
-                      controller.itemDescription.clear();
-                      controller.itemCategory.clear();
-                      controller.itemPrice.clear();
-                      controller.selectedImage.value = "";
-                      controller.variantList.clear();
-                      controller.filename.value = '';
-                      controller.dropdownvalue.value = 'Select Category';
-                      controller.clearTextField();
-                      Get.to(() => ItemFormView());
-                    }
-                  },
-                  child: Container(
-                    height: sizer.height(height: 40, context: context),
-                    width: sizer.width(width: 40, context: context),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: LinearGradient(
-                          begin: Alignment.bottomLeft,
-                          end: Alignment.topRight,
-                          colors: [
-                            Colors.cyanAccent,
-                            Colors.greenAccent,
-                            Colors.lightBlue,
-                            Colors.tealAccent
-                          ]),
-                    ),
-                    child: Icon(Icons.add),
-                  ),
-                ),
+          // floatingActionButton: controller.isSelect.value == true
+          //     ? null
+          //     : FloatingActionButton(
+          //         onPressed: () {
+          //           if (controller.categoryList.isEmpty) {
+          //             controller.showDialogEmptyCategory();
+          //           } else {
+          //             controller.itemName.clear();
+          //             controller.itemDescription.clear();
+          //             controller.itemCategory.clear();
+          //             controller.itemPrice.clear();
+          //             controller.selectedImage.value = "";
+          //             controller.variantList.clear();
+          //             controller.filename.value = '';
+          //             controller.dropdownvalue.value = 'Select Category';
+          //             controller.clearTextField();
+          //             Get.to(() => ItemFormView());
+          //           }
+          //         },
+          //         child: Container(
+          //           height: sizer.height(height: 40, context: context),
+          //           width: sizer.width(width: 40, context: context),
+          //           decoration: BoxDecoration(
+          //             shape: BoxShape.circle,
+          //             gradient: LinearGradient(
+          //                 begin: Alignment.bottomLeft,
+          //                 end: Alignment.topRight,
+          //                 colors: [
+          //                   Colors.cyanAccent,
+          //                   Colors.greenAccent,
+          //                   Colors.lightBlue,
+          //                   Colors.tealAccent
+          //                 ]),
+          //           ),
+          //           child: Icon(Icons.add),
+          //         ),
+          //       ),
         ),
       ),
     );

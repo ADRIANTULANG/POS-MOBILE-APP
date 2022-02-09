@@ -27,11 +27,18 @@ class PurchasedHistoryController extends GetxController {
 
   RxBool isLoadingHistory = true.obs;
   @override
-  void onInit() {
+  void onInit() async {
     if (Get.find<ConnectivityService>().hasConnection.value == true) {
-      get_Sales_History();
-      get_Sales_daily_to_print();
-      get_expenses_to_deduct();
+      await get_Sales_History();
+      await get_Sales_daily_to_print();
+      await get_expenses_to_deduct();
+      print("total cost: " + count_total_Cost().value.toStringAsFixed(2));
+      print(
+          "total expenses: " + count_total_Expenses().value.toStringAsFixed(2));
+      print("total sales: " + count_total_amount_sales().toStringAsFixed(2));
+      print("total amount: " +
+          (count_total_amount_sales().value - count_total_Expenses().value)
+              .toStringAsFixed(2));
     } else {
       get_sales_history_offline_mode();
     }
@@ -284,8 +291,9 @@ class PurchasedHistoryController extends GetxController {
     list.add(LineText(linefeed: 1));
     list.add(LineText(
         type: LineText.TYPE_TEXT,
-        content:
-            "TOTAL COST: " + "P " + count_total_Cost().value.toStringAsFixed(2),
+        content: "TOTAL COST: " +
+            "P " +
+            await count_total_Cost().value.toStringAsFixed(2),
         weight: 3,
         align: LineText.ALIGN_LEFT,
         linefeed: 1));
@@ -294,7 +302,7 @@ class PurchasedHistoryController extends GetxController {
         type: LineText.TYPE_TEXT,
         content: "CASH PAYMENT TYPE: " +
             "P " +
-            count_total_amount_sales_cash().value.toStringAsFixed(2),
+            await count_total_amount_sales_cash().value.toStringAsFixed(2),
         weight: 3,
         align: LineText.ALIGN_LEFT,
         linefeed: 1));
@@ -303,7 +311,7 @@ class PurchasedHistoryController extends GetxController {
         type: LineText.TYPE_TEXT,
         content: "CREDIT PAYMENT TYPE: " +
             "P " +
-            count_total_amount_sales_credit().value.toStringAsFixed(2),
+            await count_total_amount_sales_credit().value.toStringAsFixed(2),
         weight: 3,
         align: LineText.ALIGN_LEFT,
         linefeed: 1));
@@ -312,7 +320,9 @@ class PurchasedHistoryController extends GetxController {
         type: LineText.TYPE_TEXT,
         content: "INSTALLMENT PAYMENT TYPE: " +
             "P " +
-            count_total_amount_sales_installment().value.toStringAsFixed(2),
+            await count_total_amount_sales_installment()
+                .value
+                .toStringAsFixed(2),
         weight: 3,
         align: LineText.ALIGN_LEFT,
         linefeed: 1));
@@ -321,7 +331,7 @@ class PurchasedHistoryController extends GetxController {
         type: LineText.TYPE_TEXT,
         content: "EXPENSES: " +
             "P " +
-            count_total_Expenses().value.toStringAsFixed(2),
+            await count_total_Expenses().value.toStringAsFixed(2),
         weight: 3,
         align: LineText.ALIGN_LEFT,
         linefeed: 1));
@@ -330,7 +340,7 @@ class PurchasedHistoryController extends GetxController {
         type: LineText.TYPE_TEXT,
         content: "TOTAL AMOUNT SALES: " +
             "P " +
-            count_total_amount_sales().toStringAsFixed(2),
+            await count_total_amount_sales().toStringAsFixed(2),
         weight: 3,
         align: LineText.ALIGN_LEFT,
         linefeed: 1));
@@ -339,7 +349,8 @@ class PurchasedHistoryController extends GetxController {
         type: LineText.TYPE_TEXT,
         content: "TOTAL AMOUNT: " +
             "P " +
-            (count_total_amount_sales().value - count_total_Expenses().value)
+            (await count_total_amount_sales().value -
+                    await count_total_Expenses().value)
                 .toStringAsFixed(2),
         weight: 3,
         align: LineText.ALIGN_LEFT,

@@ -377,7 +377,7 @@ class TransactionDetailsView extends GetView<TransactionDetailsController> {
                                               controller
                                                   .installment_amount_per_Day()
                                                   .value
-                                                  .toString(),
+                                                  .toStringAsFixed(2),
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: sizer.font(
