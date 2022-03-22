@@ -48,6 +48,8 @@ class DiscountApi {
   }
 
   static Future<List<Discount>> get_All_Discount() async {
+    print(
+        "store_id: ${Get.find<StorageService>().box.read('storeid').toString()}");
     try {
       var response = await http.post(
         Uri.parse("$endPoint/get-discountss.php"),
@@ -58,7 +60,7 @@ class DiscountApi {
       ).timeout(const Duration(seconds: 10), onTimeout: () {
         throw TimeoutException("timeout");
       });
-      // print(response.body);
+      print(response.body);
       if (response.statusCode == 200) {
         var status = jsonDecode(response.body)['success'];
         if (status == true) {
