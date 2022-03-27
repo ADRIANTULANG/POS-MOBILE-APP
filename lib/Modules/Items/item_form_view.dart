@@ -270,43 +270,50 @@ class ItemFormView extends GetView<ItemController> {
                                                   BorderRadius.circular(32.0))),
                                     ),
                                   ),
-                                  Container(
-                                    width: sizer.width(
-                                        width: 20, context: context),
-                                    child: Material(
-                                      elevation: 5.0,
-                                      borderRadius: BorderRadius.circular(30.0),
-                                      color: Colors.red,
-                                      child: MaterialButton(
-                                        minWidth:
-                                            MediaQuery.of(context).size.width,
-                                        onPressed: () {
-                                          if (controller
-                                                  .itemDiscountType.value ==
-                                              "Amount") {
-                                            controller.itemDiscountType.value =
-                                                "Percent";
-                                          } else {
-                                            controller.itemDiscountType.value =
-                                                "Amount";
-                                          }
-                                        },
-                                        child: Obx(
-                                          () => Text(
+                                  SizedBox(
+                                    width:
+                                        sizer.width(width: 1, context: context),
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                      // width: sizer.width(
+                                      //     width: 22, context: context),
+                                      child: Material(
+                                        elevation: 5.0,
+                                        borderRadius:
+                                            BorderRadius.circular(30.0),
+                                        color: Colors.red,
+                                        child: MaterialButton(
+                                          minWidth:
+                                              MediaQuery.of(context).size.width,
+                                          onPressed: () {
+                                            if (controller
+                                                    .itemDiscountType.value ==
+                                                "Amount") {
                                               controller.itemDiscountType
-                                                          .value ==
-                                                      "Amount"
-                                                  ? "Amount"
-                                                  : "Percent",
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                      fontSize: sizer.font(
-                                                          fontsize: 10,
-                                                          context: context))
-                                                  .copyWith(
-                                                      color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.bold)),
+                                                  .value = "Percent";
+                                            } else {
+                                              controller.itemDiscountType
+                                                  .value = "Amount";
+                                            }
+                                          },
+                                          child: Obx(
+                                            () => Text(
+                                                controller.itemDiscountType
+                                                            .value ==
+                                                        "Amount"
+                                                    ? "Amount"
+                                                    : "Percent",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                        fontSize: sizer.font(
+                                                            fontsize: 10,
+                                                            context: context))
+                                                    .copyWith(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                          ),
                                         ),
                                       ),
                                     ),
