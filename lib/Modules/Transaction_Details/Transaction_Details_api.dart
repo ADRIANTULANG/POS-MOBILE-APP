@@ -241,4 +241,34 @@ class TransactionDetailsApi {
       return Future.error(true);
     }
   }
+
+  static delete_order_number({
+    required String ordernumber,
+  }) async {
+    try {
+      var response = await http.post(
+        Uri.parse("$endPoint/delete-ordernumber-after-refund.php"),
+        body: {
+          'ordernumber': ordernumber,
+        },
+      ).timeout(const Duration(seconds: 10), onTimeout: () {
+        throw TimeoutException("timeout");
+      });
+
+      // print(json.encode(json.decode(response.body)));
+      if (response.statusCode == 200) {
+        var status = jsonDecode(response.body)['success'];
+        if (status == true) {
+          return "Success";
+        } else {
+          return "Error";
+        }
+      } else {
+        return Future.error(true);
+      }
+    } catch (error) {
+      print('delete_order_number catch error $error');
+      return Future.error(true);
+    }
+  }
 }

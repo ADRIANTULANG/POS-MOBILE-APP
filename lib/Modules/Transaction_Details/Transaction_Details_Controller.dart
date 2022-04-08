@@ -953,6 +953,16 @@ class TransactionDetailsController extends GetxController
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text('Refund Succesful'),
     ));
+    if (finalItemsList.isEmpty) {
+      var result = await TransactionDetailsApi.delete_order_number(
+          ordernumber: ordernumber.value);
+      if (result == "Success") {
+        print("Order number deleted");
+        Get.find<PurchasedHistoryController>().get_Sales_History();
+      } else {
+        print("Error");
+      }
+    }
     Get.back();
 
     isRefunding(false);

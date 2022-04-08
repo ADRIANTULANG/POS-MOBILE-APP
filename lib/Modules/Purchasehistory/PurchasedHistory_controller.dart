@@ -32,6 +32,7 @@ class PurchasedHistoryController extends GetxController {
       await get_Sales_History();
       await get_Sales_daily_to_print();
       await get_expenses_to_deduct();
+      await count_total_daily_Discount();
       print("total cost: " + count_total_Cost().value.toStringAsFixed(2));
       print(
           "total expenses: " + count_total_Expenses().value.toStringAsFixed(2));
@@ -39,6 +40,8 @@ class PurchasedHistoryController extends GetxController {
       print("total amount: " +
           (count_total_amount_sales().value - count_total_Expenses().value)
               .toStringAsFixed(2));
+      print(
+          "total discount: " + count_total_daily_Discount().toStringAsFixed(2));
     } else {
       get_sales_history_offline_mode();
     }
@@ -194,6 +197,14 @@ class PurchasedHistoryController extends GetxController {
     return total.obs;
   }
 
+  RxDouble count_total_daily_Discount() {
+    var total = 0.0;
+    for (var i = 0; i < dailySales.length; i++) {
+      total = total + double.parse(dailySales[i].order_total_discount);
+    }
+    return total.obs;
+  }
+
   RxDouble count_total_amount_sales_cash() {
     var total = 0.0;
     for (var i = 0; i < dailySales.length; i++) {
@@ -259,7 +270,7 @@ class PurchasedHistoryController extends GetxController {
         linefeed: 1));
     list.add(LineText(
         type: LineText.TYPE_TEXT,
-        content: 'Daily Sales and Expenses',
+        content: 'Daily Sales, Expenses, Discounts and Payments',
         weight: 3,
         align: LineText.ALIGN_CENTER,
         linefeed: 1));
@@ -329,7 +340,7 @@ class PurchasedHistoryController extends GetxController {
     list.add(LineText(linefeed: 1));
     list.add(LineText(
         type: LineText.TYPE_TEXT,
-        content: "EXPENSES: " +
+        content: "DAILY EXPENSES: " +
             "P " +
             await count_total_Expenses().value.toStringAsFixed(2),
         weight: 3,
@@ -338,7 +349,16 @@ class PurchasedHistoryController extends GetxController {
     list.add(LineText(linefeed: 1));
     list.add(LineText(
         type: LineText.TYPE_TEXT,
-        content: "TOTAL AMOUNT SALES: " +
+        content: "TOTAL DAILY DISCOUNT: " +
+            "P " +
+            await count_total_daily_Discount().value.toStringAsFixed(2),
+        weight: 3,
+        align: LineText.ALIGN_LEFT,
+        linefeed: 1));
+    list.add(LineText(linefeed: 1));
+    list.add(LineText(
+        type: LineText.TYPE_TEXT,
+        content: "TOTAL DAILY AMOUNT SALES: " +
             "P " +
             await count_total_amount_sales().toStringAsFixed(2),
         weight: 3,
@@ -347,7 +367,7 @@ class PurchasedHistoryController extends GetxController {
     list.add(LineText(linefeed: 1));
     list.add(LineText(
         type: LineText.TYPE_TEXT,
-        content: "TOTAL AMOUNT: " +
+        content: "TOTAL DAILY AMOUNT: " +
             "P " +
             (await count_total_amount_sales().value -
                     await count_total_Expenses().value)

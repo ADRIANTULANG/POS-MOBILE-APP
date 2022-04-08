@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bluetooth_print/bluetooth_print_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobilepos/Model/CartModel.dart';
@@ -7,6 +8,7 @@ import 'package:mobilepos/Modules/Homepage/Homepage_api.dart';
 import 'package:mobilepos/Modules/Homepage/Homepage_model.dart';
 import 'package:mobilepos/Modules/Login/login_view.dart';
 import 'package:mobilepos/helpers/CartServices.dart';
+import 'package:mobilepos/helpers/bluetooth_services.dart';
 import 'package:mobilepos/helpers/connectivity.dart';
 import 'package:mobilepos/helpers/sizer.dart';
 import 'package:mobilepos/helpers/storage.dart';
@@ -677,5 +679,22 @@ class HomepageController extends GetxController {
     }
     Get.find<CartServices>().cart.assignAll(cartListFromJson(jsonEncode(list)));
     isLoadingAddingToCart.value = false;
+  }
+
+  List<LineText> list = [];
+  Map<String, dynamic> config = {};
+
+  Future<void> print_to_open_Drawer() async {
+    list.add(LineText(linefeed: 1));
+    list.add(LineText(
+        type: LineText.TYPE_TEXT,
+        content: '',
+        align: LineText.ALIGN_CENTER,
+        weight: 5,
+        linefeed: 1));
+
+    await Get.find<BluetoothServices>().bluetooth.printReceipt(config, list);
+    config.clear();
+    list.clear();
   }
 }

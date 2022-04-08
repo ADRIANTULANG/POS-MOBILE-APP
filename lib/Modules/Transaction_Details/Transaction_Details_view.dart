@@ -548,6 +548,9 @@ class TransactionDetailsView extends GetView<TransactionDetailsController> {
                   ),
                 ),
               ),
+              SizedBox(
+                height: sizer.height(height: 2, context: context),
+              ),
             ],
           ),
         ),

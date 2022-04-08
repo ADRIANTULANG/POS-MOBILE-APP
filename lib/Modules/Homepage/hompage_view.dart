@@ -9,8 +9,8 @@ import 'package:mobilepos/Modules/Expenses/Expenses_view.dart';
 import 'package:mobilepos/Modules/Homepage/homepage_controller.dart';
 import 'package:mobilepos/Modules/Items/Item_view.dart';
 import 'package:mobilepos/Modules/Purchasehistory/PurchasedHistory_view.dart';
-import 'package:mobilepos/Modules/QRcodeScanner/QRcodescanner_View.dart';
 import 'package:mobilepos/helpers/DiscountServices.dart';
+import 'package:mobilepos/helpers/bluetooth_services.dart';
 import 'package:mobilepos/helpers/connectivity.dart';
 import 'package:mobilepos/helpers/endpoints.dart';
 import 'package:mobilepos/helpers/sizer.dart';
@@ -97,15 +97,15 @@ class HomepageView extends GetView<HomepageController> {
                     },
                   ),
           ),
-          IconButton(
-            icon: Icon(Icons.qr_code_scanner_rounded),
-            // tooltip: 'Open shopping cart',
-            onPressed: () {
-              Get.to(QRViewExample());
+          // IconButton(
+          //   icon: Icon(Icons.qr_code_scanner_rounded),
+          //   // tooltip: 'Open shopping cart',
+          //   onPressed: () {
+          //     Get.to(QRViewExample());
 
-              // handle the press
-            },
-          ),
+          //     // handle the press
+          //   },
+          // ),
           SizedBox(
             width: sizer.width(width: 2, context: context),
           )
@@ -192,24 +192,19 @@ class HomepageView extends GetView<HomepageController> {
                 }
               },
             ),
-            // ListTile(
-            //   title: Text('Add user'),
-            //   leading: Icon(Icons.person),
-            //   onTap: () {
-            //     if (Get.find<StorageService>()
-            //             .box
-            //             .read('usertype')
-            //             .toString()
-            //             .toLowerCase() ==
-            //         "admin") {
-            //       Get.back();
-            //       Get.to(() => RegistrationView());
-            //     } else {
-            //       Get.back();
-            //       controller.showDialog(context: context, word: "Admins");
-            //     }
-            //   },
-            // ),
+            ListTile(
+              title: Text('Open Cash Drawer'),
+              leading: Icon(Icons.cases_rounded),
+              onTap: () {
+                if (Get.find<BluetoothServices>().bluetoothState == 12 ||
+                    Get.find<BluetoothServices>().bluetoothState == 1) {
+                  if (Get.find<BluetoothServices>().printerStatus ==
+                      "Connected") {
+                    controller.print_to_open_Drawer();
+                  }
+                }
+              },
+            ),
             ListTile(
               title: Text('Items'),
               leading: Icon(Icons.list_sharp),
