@@ -493,6 +493,7 @@ class PurchasedHistoryController extends GetxController {
     ));
     Get.find<StorageService>().box.remove('orderhistory');
     Get.find<StorageService>().box.remove('listofordereditems');
+    await get_Sales_History();
   }
 
   update_item_count({required int itemid, required int quantity}) async {

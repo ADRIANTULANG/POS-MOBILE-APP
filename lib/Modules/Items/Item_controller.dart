@@ -29,6 +29,8 @@ class ItemController extends GetxController {
   TextEditingController variantCount = TextEditingController();
   TextEditingController variantDiscount = TextEditingController();
 
+  TextEditingController searchField = TextEditingController();
+
   RxString itemDiscountType = "Amount".obs;
   RxString variantDiscountType = "Amount".obs;
 
@@ -44,6 +46,7 @@ class ItemController extends GetxController {
   RxString itemIdToUpdate = "".obs;
 
   RxList<Categories> categoryList = <Categories>[].obs;
+  RxList<ItemsNew> itemsListMaster = <ItemsNew>[].obs;
   RxList<ItemsNew> itemsList = <ItemsNew>[].obs;
   RxList<VariantListInUpdate> variantListToUpdate = <VariantListInUpdate>[].obs;
 
@@ -77,6 +80,7 @@ class ItemController extends GetxController {
   getAllItems() async {
     var result = await itemApi.get_All_items(
         storeid: Get.find<StorageService>().box.read('storeid'));
+    itemsListMaster.assignAll(result);
     itemsList.assignAll(result);
 
     isLoadingData.value = false;
@@ -95,6 +99,23 @@ class ItemController extends GetxController {
     );
     // hasUpdated.value = false;
     variantListToUpdate.assignAll(result);
+  }
+
+  searchFunctionNew({required String stringtosearch}) {
+    itemsList.clear();
+    itemsList.addAll(itemsListMaster
+        .where((u) => (u.itemName
+                .toString()
+                .toLowerCase()
+                .contains(stringtosearch.toLowerCase()) ||
+            u.itemBarcode
+                .toString()
+                .toLowerCase()
+                .contains(stringtosearch.toLowerCase())))
+        .toList());
+    if (stringtosearch.isEmpty) {
+      itemsList.assignAll(itemsListMaster);
+    }
   }
 
   delete_variants_inupdate(
