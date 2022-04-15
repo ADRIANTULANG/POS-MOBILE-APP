@@ -294,6 +294,7 @@ class itemApi {
     required String variant_mainitem_id,
     required String variant_store_id,
     required String variant_discount,
+    required String variant_barcode,
     required String variant_discount_type,
   }) async {
     print(variant_name);
@@ -303,11 +304,12 @@ class itemApi {
     print(variant_store_id);
     print(variant_discount);
     print(variant_discount_type);
-
+    print(variant_barcode);
     try {
       var response = await http.post(
         Uri.parse("$endPoint/add-variants.php"),
         body: {
+          'variant_barcode': variant_barcode,
           'variant_name': variant_name,
           'variant_count': variant_count,
           'variant_price': variant_price,

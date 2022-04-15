@@ -23,6 +23,7 @@ class PurchasedHistoryController extends GetxController {
   RxList<HistoryModel> historyList = <HistoryModel>[].obs;
   RxList<HistoryModel> masterhistoryList = <HistoryModel>[].obs;
   RxList<DailySalesForPrint> dailySales = <DailySalesForPrint>[].obs;
+  RxList<DailySalesForPrint> salestotalcost = <DailySalesForPrint>[].obs;
   RxList<ExpensesDaily> expensesDaily = <ExpensesDaily>[].obs;
 
   RxBool isLoadingHistory = true.obs;
@@ -33,7 +34,8 @@ class PurchasedHistoryController extends GetxController {
       await get_Sales_daily_to_print();
       await get_expenses_to_deduct();
       await count_total_daily_Discount();
-      print("total cost: " + count_total_Cost().value.toStringAsFixed(2));
+      await get_sales_total_cost();
+      print("total sales cost: " + count_total_Cost().value.toStringAsFixed(2));
       print(
           "total expenses: " + count_total_Expenses().value.toStringAsFixed(2));
       print("total sales: " + count_total_amount_sales().toStringAsFixed(2));
@@ -58,6 +60,11 @@ class PurchasedHistoryController extends GetxController {
     historyList.assignAll(result.reversed);
     masterhistoryList.assignAll(result);
     isLoadingHistory(false);
+  }
+
+  get_sales_total_cost() async {
+    var result = await PurchasedHistoryApi.get_sales_total_cost_for_print();
+    salestotalcost.assignAll(result);
   }
 
   get_sales_history_offline_mode() {
@@ -237,9 +244,8 @@ class PurchasedHistoryController extends GetxController {
 
   RxDouble count_total_Cost() {
     var total = 0.0;
-    for (var i = 0; i < Get.find<HomepageController>().itemsList.length; i++) {
-      total = total +
-          double.parse(Get.find<HomepageController>().itemsList[i].itemCost);
+    for (var i = 0; i < salestotalcost.length; i++) {
+      total = total + double.parse(salestotalcost[i].orderTotalAmount);
     }
     return total.obs;
   }
@@ -302,7 +308,7 @@ class PurchasedHistoryController extends GetxController {
     list.add(LineText(linefeed: 1));
     list.add(LineText(
         type: LineText.TYPE_TEXT,
-        content: "TOTAL COST: " +
+        content: "TOTAL SALES COST: " +
             "P " +
             await count_total_Cost().value.toStringAsFixed(2),
         weight: 3,

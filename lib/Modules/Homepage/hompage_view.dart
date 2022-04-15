@@ -9,6 +9,7 @@ import 'package:mobilepos/Modules/Expenses/Expenses_view.dart';
 import 'package:mobilepos/Modules/Homepage/homepage_controller.dart';
 import 'package:mobilepos/Modules/Items/Item_view.dart';
 import 'package:mobilepos/Modules/Purchasehistory/PurchasedHistory_view.dart';
+import 'package:mobilepos/Modules/QRcodeScanner/QRcodescanner_sales_View.dart';
 import 'package:mobilepos/helpers/DiscountServices.dart';
 import 'package:mobilepos/helpers/bluetooth_services.dart';
 import 'package:mobilepos/helpers/connectivity.dart';
@@ -97,15 +98,13 @@ class HomepageView extends GetView<HomepageController> {
                     },
                   ),
           ),
-          // IconButton(
-          //   icon: Icon(Icons.qr_code_scanner_rounded),
-          //   // tooltip: 'Open shopping cart',
-          //   onPressed: () {
-          //     Get.to(QRViewExample());
-
-          //     // handle the press
-          //   },
-          // ),
+          IconButton(
+            icon: Icon(Icons.qr_code_scanner_rounded),
+            // tooltip: 'Open shopping cart',
+            onPressed: () {
+              Get.to(() => QRViewExample());
+            },
+          ),
           SizedBox(
             width: sizer.width(width: 2, context: context),
           )
@@ -694,7 +693,7 @@ class HomepageView extends GetView<HomepageController> {
                                                             .itemId,
                                                         context: context);
                                               } else {
-                                                print("grid view");
+                                                print("list view");
                                                 if (double.parse(controller
                                                         .itemsList[index]
                                                         .itemCount) ==

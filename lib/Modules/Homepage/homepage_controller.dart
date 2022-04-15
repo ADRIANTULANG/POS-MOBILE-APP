@@ -85,6 +85,7 @@ class HomepageController extends GetxController {
             "variant_mainitem_id": temporaryList_master[z].variantMainitemId,
             "variant_store_id": temporaryList_master[z].variantStoreId,
             "variant_discount": temporaryList_master[z].variant_discount,
+            "variant_barcode": temporaryList_master[z].variant_barcode,
             "variant_discount_type":
                 temporaryList_master[z].variant_discount_type,
           };

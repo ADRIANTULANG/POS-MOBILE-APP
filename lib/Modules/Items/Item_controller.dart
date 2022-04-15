@@ -11,6 +11,7 @@ import 'package:mobilepos/Modules/Category/Category_view.dart';
 import 'package:mobilepos/Modules/Homepage/homepage_controller.dart';
 import 'package:mobilepos/Modules/Items/item_api.dart';
 import 'package:mobilepos/Modules/Items/item_model.dart';
+import 'package:mobilepos/Modules/QRscanRegistration/qrscanregistration.dart';
 import 'package:mobilepos/helpers/sizer.dart';
 import 'package:mobilepos/helpers/storage.dart';
 
@@ -28,7 +29,7 @@ class ItemController extends GetxController {
   TextEditingController variantPrice = TextEditingController();
   TextEditingController variantCount = TextEditingController();
   TextEditingController variantDiscount = TextEditingController();
-
+  TextEditingController variantBarcode = TextEditingController();
   TextEditingController searchField = TextEditingController();
 
   RxString itemDiscountType = "Amount".obs;
@@ -160,6 +161,7 @@ class ItemController extends GetxController {
             variant_name: variantList[i]['variant_name'],
             variant_count: variantList[i]['variant_count'],
             variant_price: variantList[i]['variant_price'],
+            variant_barcode: variantList[i]['variant_barcode'],
             variant_mainitem_id: mainitemId.toString(),
             variant_store_id:
                 Get.find<StorageService>().box.read('storeid').toString());
@@ -202,6 +204,7 @@ class ItemController extends GetxController {
             variant_discount_type: variantList[i]['variant_discount_type'],
             variant_name: variantList[i]['variant_name'],
             variant_count: variantList[i]['variant_count'],
+            variant_barcode: variantList[i]['variant_barcode'],
             variant_price: variantList[i]['variant_price'],
             variant_mainitem_id: mainitemId.toString(),
             variant_store_id:
@@ -241,9 +244,11 @@ class ItemController extends GetxController {
     required String mainitemId,
     required String variant_discount,
     required String variant_discount_type,
+    required String variant_barcode,
   }) async {
     print("varian Added");
     var variantresult = await itemApi.addVariants(
+        variant_barcode: variant_barcode,
         variant_discount: variant_discount,
         variant_discount_type: variant_discount_type,
         variant_name: variant_name,
@@ -281,6 +286,7 @@ class ItemController extends GetxController {
       "variant_name": variantName.text,
       "variant_count": variantCount.text,
       "variant_price": variantPrice.text,
+      "variant_barcode": variantBarcode.text,
       "variant_discount":
           variantDiscount.text.isEmpty ? "0" : variantDiscount.text,
       "variant_discount_type": variantDiscountType.value,
@@ -290,6 +296,7 @@ class ItemController extends GetxController {
     variantPrice.clear();
     variantCount.clear();
     variantDiscount.clear();
+    variantBarcode.clear();
     Get.back();
   }
 
@@ -394,7 +401,7 @@ class ItemController extends GetxController {
                 top: sizer.height(height: 2, context: context),
                 right: sizer.width(width: 5, context: context)),
             // color: Colors.pink,
-            height: sizer.height(height: 45, context: context),
+            height: sizer.height(height: 55, context: context),
             width: sizer.width(width: 85, context: context),
             child: Column(
               children: [
@@ -443,6 +450,59 @@ class ItemController extends GetxController {
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(32.0))),
                   ),
+                ),
+                SizedBox(
+                  height: sizer.height(height: 2, context: context),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      alignment: Alignment.center,
+                      // color: Colors.red,
+                      height: sizer.height(height: 6, context: context),
+                      width: sizer.width(width: 45, context: context),
+                      child: TextField(
+                        enabled: false,
+                        controller: variantBarcode,
+                        obscureText: false,
+                        keyboardType: TextInputType.numberWithOptions(
+                            decimal: false, signed: false),
+                        style: TextStyle(
+                            fontSize:
+                                sizer.font(fontsize: 10, context: context)),
+                        decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                            hintText: "Barcode",
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(32.0))),
+                      ),
+                    ),
+                    Container(
+                      width: sizer.width(width: 20, context: context),
+                      child: Material(
+                        elevation: 5.0,
+                        borderRadius: BorderRadius.circular(30.0),
+                        color: Colors.red,
+                        child: MaterialButton(
+                          minWidth: MediaQuery.of(context).size.width,
+                          onPressed: () {
+                            Get.to(() =>
+                                QRScanforRegistrationView(isVariant: true));
+                          },
+                          child: Text("Scan",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                      fontSize: sizer.font(
+                                          fontsize: 10, context: context))
+                                  .copyWith(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold)),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: sizer.height(height: 2, context: context),
@@ -547,6 +607,7 @@ class ItemController extends GetxController {
                             onPressed: () {
                               if (variantName.text.isEmpty ||
                                   variantCount.text.isEmpty ||
+                                  variantBarcode.text.isEmpty ||
                                   variantPrice.text.isEmpty) {
                               } else {
                                 addVariants();
@@ -768,6 +829,7 @@ class ItemController extends GetxController {
                               } else {
                                 // addVariants();
                                 addVariants_Automatically(
+                                    variant_barcode: variantBarcode.text,
                                     variant_discount: variantDiscount.text,
                                     variant_discount_type:
                                         variantDiscountType.value,

@@ -49,17 +49,13 @@ dependencies:
   #spinkit loading
   flutter_spinkit: ^5.1.0
   #QRcode_scanner
-  qr_code_scanner: ^0.6.1
-
-
+  qr_code_scanner: ^0.7.0
+  
   scrollable_positioned_list: ^0.2.3
   getwidget: ^2.0.4
   customtabview: ^0.1.0
   visibility_detector: ^0.2.2
-
   sqflite: ^2.0.2
-
-
   #file picker
   file_picker: ^4.2.7
 

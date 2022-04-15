@@ -71,6 +71,36 @@ class PurchasedHistoryApi {
     }
   }
 
+  static Future<List<DailySalesForPrint>>
+      get_sales_total_cost_for_print() async {
+    try {
+      var response = await http.post(
+        Uri.parse("$endPoint/get-sales-total-cost.php"),
+        body: {
+          'storeid': Get.find<StorageService>().box.read('storeid').toString(),
+        },
+      ).timeout(const Duration(seconds: 10), onTimeout: () {
+        throw TimeoutException("timeout");
+      });
+      // print(response.body);
+      // print(json.encode(json.decode(response.body)));
+      if (response.statusCode == 200) {
+        var status = jsonDecode(response.body)['success'];
+        if (status == true) {
+          var result = jsonEncode(jsonDecode(response.body)['data']);
+          return dailySalesForPrintFromJson(result);
+        } else {
+          return [];
+        }
+      } else {
+        return Future.error(true);
+      }
+    } catch (error) {
+      print('get_sales_for_print catch error $error');
+      return Future.error(true);
+    }
+  }
+
 //  Future<List<ExpensesDaily>>
   static Future<List<ExpensesDaily>> get_daily_expenses(
       {required String date}) async {

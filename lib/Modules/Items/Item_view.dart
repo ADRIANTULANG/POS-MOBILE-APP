@@ -450,6 +450,7 @@ class ItemView extends GetView<ItemController> {
                                         controller.itemDescription.clear();
                                         controller.itemCategory.clear();
                                         controller.itemPrice.clear();
+                                        controller.itemBarcode.clear();
                                         controller.selectedImage.value = "";
                                         controller.variantList.clear();
                                         controller.filename.value = '';

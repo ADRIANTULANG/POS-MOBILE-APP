@@ -3,11 +3,12 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:mobilepos/Modules/Items/Item_controller.dart';
+import 'package:mobilepos/Modules/QRscanRegistration/qrscanregistration.dart';
 import 'package:mobilepos/helpers/endpoints.dart';
 import 'package:mobilepos/helpers/sizer.dart';
 import 'package:mobilepos/helpers/storage.dart';
 // import 'package:mobilepos/helpers/storage.dart';
-import 'package:syncfusion_flutter_barcodes/barcodes.dart';
+
 // import 'package:mobilepos/helpers/storage.dart';
 
 class ItemUpdate extends GetView<ItemController> {
@@ -194,59 +195,105 @@ class ItemUpdate extends GetView<ItemController> {
                 SizedBox(
                   height: sizer.height(height: 2, context: context),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      alignment: Alignment.center,
-                      // color: Colors.red,
-                      height: sizer.height(height: 6, context: context),
-                      width: sizer.width(width: 65, context: context),
-                      child: TextField(
-                        controller: controller.itemBarcode,
-                        obscureText: false,
-                        onChanged: (value) {
-                          controller.barcodeValue.value = value;
-                        },
-                        keyboardType: TextInputType.text,
-                        style: TextStyle(
-                            fontSize:
-                                sizer.font(fontsize: 10, context: context)),
-                        decoration: InputDecoration(
-                            contentPadding:
-                                EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                            hintText: "Barcode",
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(32.0))),
-                      ),
-                    ),
-                    Container(
-                      // color: Colors.red,
-                      padding: EdgeInsets.only(
-                          top: sizer.height(height: 0.5, context: context),
-                          bottom: sizer.height(height: 0.5, context: context)),
-                      height: sizer.height(height: 5, context: context),
-                      width: sizer.width(width: 20, context: context),
-                      alignment: Alignment.center,
-                      child: Obx(
-                        () => controller.barcodeValue.value.isNotEmpty
-                            ? SfBarcodeGenerator(
-                                textAlign: TextAlign.center,
-                                value: controller.barcodeValue.value,
-                                showValue: false,
-                              )
-                            : Container(),
-                      ),
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: sizer.height(height: 2, context: context),
-                ),
+
                 Obx(
                   () => controller.variantListToUpdate.length == 0
                       ? Column(
                           children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  alignment: Alignment.center,
+                                  // color: Colors.red,
+                                  height:
+                                      sizer.height(height: 6, context: context),
+                                  width:
+                                      sizer.width(width: 65, context: context),
+                                  child: TextField(
+                                    enabled: false,
+                                    controller: controller.itemBarcode,
+                                    obscureText: false,
+                                    onChanged: (value) {
+                                      controller.barcodeValue.value = value;
+                                    },
+                                    keyboardType: TextInputType.text,
+                                    style: TextStyle(
+                                        fontSize: sizer.font(
+                                            fontsize: 10, context: context)),
+                                    decoration: InputDecoration(
+                                        contentPadding: EdgeInsets.fromLTRB(
+                                            20.0, 15.0, 20.0, 15.0),
+                                        hintText: "Barcode",
+                                        border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(32.0))),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width:
+                                      sizer.width(width: 5, context: context),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    // width: sizer.width(
+                                    //     width: 22, context: context),
+                                    child: Material(
+                                      elevation: 5.0,
+                                      borderRadius: BorderRadius.circular(30.0),
+                                      color: Colors.red,
+                                      child: MaterialButton(
+                                        minWidth:
+                                            MediaQuery.of(context).size.width,
+                                        onPressed: () {
+                                          Get.to(
+                                              () => QRScanforRegistrationView(
+                                                    isVariant: false,
+                                                  ));
+                                        },
+                                        child: Text("Scan",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                    fontSize: sizer.font(
+                                                        fontsize: 10,
+                                                        context: context))
+                                                .copyWith(
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                                // Container(
+                                //   // color: Colors.red,
+                                //   padding: EdgeInsets.only(
+                                //       top: sizer.height(
+                                //           height: 0.5, context: context),
+                                //       bottom: sizer.height(
+                                //           height: 0.5, context: context)),
+                                //   height:
+                                //       sizer.height(height: 5, context: context),
+                                //   width:
+                                //       sizer.width(width: 20, context: context),
+                                //   alignment: Alignment.center,
+                                //   child: Obx(
+                                //     () =>
+                                //         controller.barcodeValue.value.isNotEmpty
+                                //             ? SfBarcodeGenerator(
+                                //                 textAlign: TextAlign.center,
+                                //                 value: controller
+                                //                     .barcodeValue.value,
+                                //                 showValue: false,
+                                //               )
+                                //             : Container(),
+                                //   ),
+                                // )
+                              ],
+                            ),
+                            SizedBox(
+                              height: sizer.height(height: 2, context: context),
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
