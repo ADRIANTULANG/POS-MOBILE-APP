@@ -170,36 +170,38 @@ class ItemUpdate extends GetView<ItemController> {
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: sizer.height(height: 2, context: context),
-                ),
-                Container(
-                  alignment: Alignment.center,
-                  // color: Colors.red,
-                  height: sizer.height(height: 6, context: context),
-                  width: sizer.width(width: 100, context: context),
-                  child: TextField(
-                    controller: controller.itemCost,
-                    obscureText: false,
-                    keyboardType: TextInputType.number,
-                    style: TextStyle(
-                        fontSize: sizer.font(fontsize: 10, context: context)),
-                    decoration: InputDecoration(
-                        contentPadding:
-                            EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                        hintText: "Cost",
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(32.0))),
-                  ),
-                ),
-                SizedBox(
-                  height: sizer.height(height: 2, context: context),
-                ),
 
                 Obx(
                   () => controller.variantListToUpdate.length == 0
                       ? Column(
                           children: [
+                            SizedBox(
+                              height: sizer.height(height: 2, context: context),
+                            ),
+                            Container(
+                              alignment: Alignment.center,
+                              // color: Colors.red,
+                              height: sizer.height(height: 6, context: context),
+                              width: sizer.width(width: 100, context: context),
+                              child: TextField(
+                                controller: controller.itemCost,
+                                obscureText: false,
+                                keyboardType: TextInputType.number,
+                                style: TextStyle(
+                                    fontSize: sizer.font(
+                                        fontsize: 10, context: context)),
+                                decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.fromLTRB(
+                                        20.0, 15.0, 20.0, 15.0),
+                                    hintText: "Cost",
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(32.0))),
+                              ),
+                            ),
+                            SizedBox(
+                              height: sizer.height(height: 2, context: context),
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [

@@ -78,25 +78,35 @@ class CheckoutApi {
       required String totalDiscount,
       required String additional_checkout_discount,
       required String additional_checkout_discount_type}) async {
+    print("pamenttype: ${paymenttype}");
+    print("currentdateFull ${currentdateFull}");
+    print("currentdate: ${currentdate}");
+    print("total amount :${totalAmount}");
+    print("totaldiscount: ${totalDiscount}");
+    print("additional checkout discount: ${additional_checkout_discount}");
+    print(
+        "addtional_checkout_discount_type: ${additional_checkout_discount_type}");
+
     try {
       var response = await http.post(
         Uri.parse("$endPoint/create-order.php"),
         body: {
-          'storeid': Get.find<StorageService>().box.read('storeid'),
-          'paymenttype': paymenttype,
-          'additional_checkout_discount': additional_checkout_discount,
+          'storeid': Get.find<StorageService>().box.read('storeid').toString(),
+          'paymenttype': paymenttype.toString(),
+          'additional_checkout_discount':
+              additional_checkout_discount.toString(),
           'additional_checkout_discount_type':
-              additional_checkout_discount_type,
+              additional_checkout_discount_type.toString(),
           'userid': Get.find<StorageService>().box.read('userid').toString(),
-          'date': currentdate,
-          'order_total_amount': totalAmount,
-          'order_total_discount': totalDiscount,
-          'datetime': currentdateFull
+          'date': currentdate.toString(),
+          'order_total_amount': totalAmount.toString(),
+          'order_total_discount': totalDiscount.toString(),
+          'datetime': currentdateFull.toString()
         },
       ).timeout(const Duration(seconds: 10), onTimeout: () {
         throw TimeoutException("timeout");
       });
-      // print(response.body);
+      print("response: ${response.body}");
       // print(json.encode(json.decode(response.body)));
       if (response.statusCode == 200) {
         var status = jsonDecode(response.body)['success'];
@@ -185,12 +195,26 @@ class CheckoutApi {
       required String variant_count,
       required String variant_price,
       required String variant_mainitem_id,
+      required String variant_cost,
       required String variant_store_id,
       required String variant_quantity,
       required String variant_date_created,
       required String variant_discount,
       required String variant_discount_type,
       required String lastinsertedID}) async {
+    print(ordernumber);
+    print(variant_id);
+    print(variant_name);
+    print(variant_count);
+    print(variant_price);
+    print(variant_mainitem_id);
+    print(variant_cost);
+    print(variant_store_id);
+    print(variant_quantity);
+    print(variant_date_created);
+    print(variant_discount);
+    print(variant_discount_type);
+    print(lastinsertedID);
     try {
       var response = await http.post(
         Uri.parse("$endPoint/create-order-variants.php"),
@@ -199,6 +223,7 @@ class CheckoutApi {
           'variant_id': variant_id,
           'variant_name': variant_name,
           'variant_count': variant_count,
+          'variant_cost': variant_cost,
           'variant_price': variant_price,
           'variant_mainitem_id': variant_mainitem_id,
           'variant_store_id': variant_store_id,
@@ -211,7 +236,7 @@ class CheckoutApi {
       ).timeout(const Duration(seconds: 10), onTimeout: () {
         throw TimeoutException("timeout");
       });
-      // print(response.body);
+      print(response.body);
       // print(json.encode(json.decode(response.body)));
       if (response.statusCode == 200) {
         var status = jsonDecode(response.body)['success'];
@@ -225,7 +250,7 @@ class CheckoutApi {
         return Future.error(true);
       }
     } catch (error) {
-      print('create_order_purchase_order catch error $error');
+      print('save_variants catch error $error');
       return Future.error(true);
     }
   }

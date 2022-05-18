@@ -167,8 +167,9 @@ class ItemListOfVariant {
     required this.variantDiscount,
     required this.variantDiscountType,
     required this.variantQuantity,
+    required this.variant_cost,
   });
-
+  String variant_cost;
   String ordernumber;
   int variantId;
   String variantName;
@@ -181,6 +182,7 @@ class ItemListOfVariant {
 
   factory ItemListOfVariant.fromJson(Map<String, dynamic> json) =>
       ItemListOfVariant(
+        variant_cost: json["variant_cost"],
         ordernumber: json["ordernumber"],
         variantId: json["variant_id"],
         variantName: json["variant_name"],
@@ -194,6 +196,7 @@ class ItemListOfVariant {
 
   Map<String, dynamic> toJson() => {
         "ordernumber": ordernumber,
+        "variant_cost": variant_cost,
         "variant_id": variantId,
         "variant_name": variantName,
         "variant_price": variantPrice,

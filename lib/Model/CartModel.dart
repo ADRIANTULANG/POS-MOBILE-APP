@@ -108,10 +108,12 @@ class ItemVariantList {
     required this.variant_discount,
     required this.variant_discount_type,
     required this.variant_Boolean,
+    required this.variant_cost,
   });
   RxInt variant_Quantity;
   RxBool variant_Boolean;
   int variantId;
+  String variant_cost;
   String variantName;
   String variantCount;
   String variantPrice;
@@ -124,7 +126,8 @@ class ItemVariantList {
       ItemVariantList(
         variant_Boolean: false.obs,
         variant_discount:
-            json["variant_discount"] == null ? 0 : json["variant_discount"],
+            json["variant_discount"] == null ? "0" : json["variant_discount"],
+        variant_cost: json["variant_cost"] == null ? "0" : json["variant_cost"],
         variant_discount_type: json["variant_discount_type"] == null
             ? ""
             : json["variant_discount_type"],
@@ -145,6 +148,7 @@ class ItemVariantList {
       );
 
   Map<String, dynamic> toJson() => {
+        "variant_cost": variant_cost,
         "variant_Boolean": variant_Boolean,
         "variant_discount": variant_discount,
         "variant_discount_type": variant_discount_type,

@@ -158,6 +158,11 @@ class CheckoutController extends GetxController {
                   .itemVariantList![z]
                   .variant_discount
                   .toString(),
+              variant_cost: Get.find<CartServices>()
+                  .cart[i]
+                  .itemVariantList![z]
+                  .variant_cost
+                  .toString(),
               variant_discount_type: Get.find<CartServices>()
                   .cart[i]
                   .itemVariantList![z]
@@ -220,7 +225,7 @@ class CheckoutController extends GetxController {
     if (Get.find<StorageService>().box.read('orderid') == null) {
       ordernumber = 0;
     } else {
-      ordernumber = Get.find<StorageService>().box.read('orderid');
+      ordernumber = await Get.find<StorageService>().box.read('orderid');
     }
 
     var tempItemListMainItemList = [];
@@ -271,6 +276,10 @@ class CheckoutController extends GetxController {
                   .itemVariantList![z]
                   .variant_Quantity
                   .value,
+              "variant_cost": Get.find<CartServices>()
+                  .cart[i]
+                  .itemVariantList![z]
+                  .variant_cost,
             };
             variantsList.add(variantList);
           }
@@ -319,16 +328,16 @@ class CheckoutController extends GetxController {
       "order_total_discount": total_Discount().value.toString(),
     };
     transactionorderlist.add(ordernumbermap);
-    ordernumber++;
+    await ordernumber++;
     await Get.find<StorageService>().setOrderID(id: ordernumber);
     await Get.find<StorageService>()
         .setOrderHistory(orderhistory: transactionorderlist);
     isLoadingTransaction(false);
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text('Offline transaction succesful'),
     ));
 
-    Get.find<HomepageController>().get_items_offline_mode();
+    await Get.find<HomepageController>().get_items_offline_mode();
     Get.back();
   }
 

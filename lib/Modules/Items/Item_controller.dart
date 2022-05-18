@@ -27,6 +27,7 @@ class ItemController extends GetxController {
 
   TextEditingController variantName = TextEditingController();
   TextEditingController variantPrice = TextEditingController();
+  TextEditingController variantCost = TextEditingController();
   TextEditingController variantCount = TextEditingController();
   TextEditingController variantDiscount = TextEditingController();
   TextEditingController variantBarcode = TextEditingController();
@@ -162,6 +163,7 @@ class ItemController extends GetxController {
             variant_count: variantList[i]['variant_count'],
             variant_price: variantList[i]['variant_price'],
             variant_barcode: variantList[i]['variant_barcode'],
+            variant_cost: variantList[i]['variant_cost'],
             variant_mainitem_id: mainitemId.toString(),
             variant_store_id:
                 Get.find<StorageService>().box.read('storeid').toString());
@@ -200,6 +202,7 @@ class ItemController extends GetxController {
     if (variantList.isNotEmpty) {
       for (var i = 0; i < variantList.length; i++) {
         var variantresult = await itemApi.addVariants(
+            variant_cost: variantList[i]['variant_cost'],
             variant_discount: variantList[i]['variant_discount'],
             variant_discount_type: variantList[i]['variant_discount_type'],
             variant_name: variantList[i]['variant_name'],
@@ -245,9 +248,11 @@ class ItemController extends GetxController {
     required String variant_discount,
     required String variant_discount_type,
     required String variant_barcode,
+    required String variant_cost,
   }) async {
     print("varian Added");
     var variantresult = await itemApi.addVariants(
+        variant_cost: variant_cost,
         variant_barcode: variant_barcode,
         variant_discount: variant_discount,
         variant_discount_type: variant_discount_type,
@@ -287,6 +292,7 @@ class ItemController extends GetxController {
       "variant_count": variantCount.text,
       "variant_price": variantPrice.text,
       "variant_barcode": variantBarcode.text,
+      "variant_cost": variantCost.text,
       "variant_discount":
           variantDiscount.text.isEmpty ? "0" : variantDiscount.text,
       "variant_discount_type": variantDiscountType.value,
@@ -297,6 +303,7 @@ class ItemController extends GetxController {
     variantCount.clear();
     variantDiscount.clear();
     variantBarcode.clear();
+    variantCost.clear();
     Get.back();
   }
 
@@ -401,7 +408,7 @@ class ItemController extends GetxController {
                 top: sizer.height(height: 2, context: context),
                 right: sizer.width(width: 5, context: context)),
             // color: Colors.pink,
-            height: sizer.height(height: 55, context: context),
+            height: sizer.height(height: 65, context: context),
             width: sizer.width(width: 85, context: context),
             child: Column(
               children: [
@@ -447,6 +454,29 @@ class ItemController extends GetxController {
                         contentPadding:
                             EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                         hintText: "Price",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(32.0))),
+                  ),
+                ),
+                SizedBox(
+                  height: sizer.height(height: 2, context: context),
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  // color: Colors.red,
+                  height: sizer.height(height: 6, context: context),
+                  width: sizer.width(width: 100, context: context),
+                  child: TextField(
+                    controller: variantCost,
+                    obscureText: false,
+                    keyboardType: TextInputType.numberWithOptions(
+                        decimal: false, signed: false),
+                    style: TextStyle(
+                        fontSize: sizer.font(fontsize: 10, context: context)),
+                    decoration: InputDecoration(
+                        contentPadding:
+                            EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                        hintText: "Cost",
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(32.0))),
                   ),
@@ -608,6 +638,7 @@ class ItemController extends GetxController {
                               if (variantName.text.isEmpty ||
                                   variantCount.text.isEmpty ||
                                   variantBarcode.text.isEmpty ||
+                                  variantCost.text.isEmpty ||
                                   variantPrice.text.isEmpty) {
                               } else {
                                 addVariants();
@@ -673,7 +704,7 @@ class ItemController extends GetxController {
                 top: sizer.height(height: 2, context: context),
                 right: sizer.width(width: 5, context: context)),
             // color: Colors.pink,
-            height: sizer.height(height: 45, context: context),
+            height: sizer.height(height: 55, context: context),
             width: sizer.width(width: 85, context: context),
             child: Column(
               children: [
@@ -722,6 +753,32 @@ class ItemController extends GetxController {
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(32.0))),
                   ),
+                ),
+                SizedBox(
+                  height: sizer.height(height: 2, context: context),
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  // color: Colors.red,
+                  height: sizer.height(height: 6, context: context),
+                  width: sizer.width(width: 100, context: context),
+                  child: TextField(
+                    controller: variantCost,
+                    obscureText: false,
+                    keyboardType: TextInputType.numberWithOptions(
+                        decimal: false, signed: false),
+                    style: TextStyle(
+                        fontSize: sizer.font(fontsize: 10, context: context)),
+                    decoration: InputDecoration(
+                        contentPadding:
+                            EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                        hintText: "Cost",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(32.0))),
+                  ),
+                ),
+                SizedBox(
+                  height: sizer.height(height: 2, context: context),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -829,6 +886,7 @@ class ItemController extends GetxController {
                               } else {
                                 // addVariants();
                                 addVariants_Automatically(
+                                    variant_cost: variantCost.text,
                                     variant_barcode: variantBarcode.text,
                                     variant_discount: variantDiscount.text,
                                     variant_discount_type:

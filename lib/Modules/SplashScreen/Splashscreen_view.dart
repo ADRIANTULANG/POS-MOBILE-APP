@@ -17,14 +17,15 @@ class Splashscreen extends GetView<SplashscreenController> {
         height: sizer.height(context: context, height: 100),
         width: sizer.width(context: context, width: 100),
         decoration: BoxDecoration(
+          color: Colors.white,
           image: DecorationImage(
-            fit: BoxFit.fill,
-            image: AssetImage("assets/images/splash.png"),
+            fit: BoxFit.fitWidth,
+            image: AssetImage("assets/images/poslaunchernew.jpg"),
           ),
         ),
-        child: CircularProgressIndicator(
-          color: Colors.white,
-        ),
+        // child: CircularProgressIndicator(
+        //   color: Colors.white,
+        // ),
       ),
     );
   }

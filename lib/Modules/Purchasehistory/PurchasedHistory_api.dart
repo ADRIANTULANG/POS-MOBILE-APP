@@ -133,4 +133,65 @@ class PurchasedHistoryApi {
       return Future.error(true);
     }
   }
+
+// List<TotalCostMainItems>
+  static Future<List<TotalCostMainItems>> getCostMainItems() async {
+    try {
+      var response = await http.post(
+        Uri.parse("$endPoint/get-total-cost-main-items.php"),
+        body: {
+          'storeid': Get.find<StorageService>().box.read('storeid').toString(),
+        },
+      ).timeout(const Duration(seconds: 10), onTimeout: () {
+        throw TimeoutException("timeout");
+      });
+      // print(response.body);
+      // print("main items: ${json.encode(json.decode(response.body))}");
+      if (response.statusCode == 200) {
+        var status = jsonDecode(response.body)['success'];
+        if (status == true) {
+          var result = jsonEncode(jsonDecode(response.body)['data']);
+
+          return totalCostMainItemsFromJson(result);
+        } else {
+          return [];
+        }
+      } else {
+        return Future.error(true);
+      }
+    } catch (error) {
+      print('getCostMainItems catch error $error');
+      return Future.error(true);
+    }
+  }
+
+  static Future<List<TotalCostVariants>> getCostVariants() async {
+    try {
+      var response = await http.post(
+        Uri.parse("$endPoint/get-total-cost-variants.php"),
+        body: {
+          'storeid': Get.find<StorageService>().box.read('storeid').toString(),
+        },
+      ).timeout(const Duration(seconds: 10), onTimeout: () {
+        throw TimeoutException("timeout");
+      });
+      // print(response.body);
+      // print("variants: ${json.encode(json.decode(response.body))}");
+      if (response.statusCode == 200) {
+        var status = jsonDecode(response.body)['success'];
+        if (status == true) {
+          var result = jsonEncode(jsonDecode(response.body)['data']);
+          // return [];
+          return totalCostVariantsFromJson(result);
+        } else {
+          return [];
+        }
+      } else {
+        return Future.error(true);
+      }
+    } catch (error) {
+      print('getCostVariants catch error $error');
+      return Future.error(true);
+    }
+  }
 }

@@ -19,6 +19,7 @@ class ItemsModel {
     required this.variant_discount,
     required this.variant_discount_type,
     required this.variant_barcode,
+    required this.variant_cost,
     required this.itemId,
     required this.itemName,
     required this.itemCategoryId,
@@ -33,9 +34,9 @@ class ItemsModel {
     required this.itemDiscount,
     required this.itemDiscount_type,
   });
-  String itemDiscount;
-  String itemDiscount_type;
+
   int variantId;
+  String variant_cost;
   String variantName;
   String variantCount;
   String variantPrice;
@@ -45,6 +46,8 @@ class ItemsModel {
   int variantMainitemId;
   int variantStoreId;
   int itemId;
+  String itemDiscount;
+  String itemDiscount_type;
   String itemName;
   int itemCategoryId;
   String itemCost;
@@ -59,6 +62,7 @@ class ItemsModel {
   factory ItemsModel.fromJson(Map<String, dynamic> json) => ItemsModel(
         itemDiscount: json["item_discount"] ?? "0",
         itemDiscount_type: json["item_discount_type"] ?? "0",
+        variant_cost: json["variant_cost"] ?? "0",
         variantId: json["variant_id"] ?? 0,
         variantName: json["variant_name"] ?? '',
         variantCount: json["variant_count"] ?? '',
@@ -84,6 +88,7 @@ class ItemsModel {
   Map<String, dynamic> toJson() => {
         "item_discount": itemDiscount,
         "item_discount_type": itemDiscount_type,
+        "variant_cost": variant_cost,
         "variant_id": variantId,
         "variant_name": variantName,
         "variant_count": variantCount,
@@ -199,10 +204,12 @@ class ItemListOfVariant {
     required this.variant_discount,
     required this.variant_barcode,
     required this.variant_discount_type,
+    required this.variant_cost,
   });
   RxInt variantQuantity;
   RxBool variantShowTextField;
   int variantId;
+  String variant_cost;
   String variantName;
   String variantCount;
   String variantPrice;
@@ -216,6 +223,7 @@ class ItemListOfVariant {
       ItemListOfVariant(
         variantQuantity: int.parse(json["variantQuantity"].toString()).obs,
         variantShowTextField: false.obs,
+        variant_cost: json["variant_cost"],
         variantId: json["variant_id"],
         variant_barcode: json["variant_barcode"],
         variantName: json["variant_name"],
@@ -228,6 +236,7 @@ class ItemListOfVariant {
       );
 
   Map<String, dynamic> toJson() => {
+        "variant_cost": variant_cost,
         "variant_barcode": variant_barcode,
         "variantQuantity": variantQuantity,
         "variantShowTextField": variantShowTextField,

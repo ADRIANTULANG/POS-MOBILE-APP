@@ -2,7 +2,7 @@
     package="com.example.mobilepos">
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="Mobile POS"
+        android:label="BIDA Solution"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

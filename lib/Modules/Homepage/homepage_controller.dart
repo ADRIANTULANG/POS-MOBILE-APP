@@ -86,6 +86,7 @@ class HomepageController extends GetxController {
             "variant_store_id": temporaryList_master[z].variantStoreId,
             "variant_discount": temporaryList_master[z].variant_discount,
             "variant_barcode": temporaryList_master[z].variant_barcode,
+            "variant_cost": temporaryList_master[z].variant_cost,
             "variant_discount_type":
                 temporaryList_master[z].variant_discount_type,
           };
@@ -671,6 +672,7 @@ class HomepageController extends GetxController {
                   itemsList[i].itemListOfVariants[z].variant_discount,
               "variant_discount_type":
                   itemsList[i].itemListOfVariants[z].variant_discount_type,
+              "variant_cost": itemsList[i].itemListOfVariants[z].variant_cost,
             };
             map['item_variant_list'].add(variantmap);
           }

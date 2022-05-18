@@ -184,3 +184,63 @@ class ExpensesDaily {
         "expenses_date_only": expensesDateOnly,
       };
 }
+
+List<TotalCostMainItems> totalCostMainItemsFromJson(String str) =>
+    List<TotalCostMainItems>.from(
+        json.decode(str).map((x) => TotalCostMainItems.fromJson(x)));
+
+String totalCostMainItemsToJson(List<TotalCostMainItems> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
+class TotalCostMainItems {
+  TotalCostMainItems({
+    required this.itemCost,
+    required this.itemHasVariants,
+    required this.itemQuantity,
+  });
+
+  String itemCost;
+  int itemHasVariants;
+  int itemQuantity;
+
+  factory TotalCostMainItems.fromJson(Map<String, dynamic> json) =>
+      TotalCostMainItems(
+        itemCost: json["item_cost"],
+        itemHasVariants: json["item_has_variants"],
+        itemQuantity: json["item_quantity"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "item_cost": itemCost,
+        "item_has_variants": itemHasVariants,
+        "item_quantity": itemQuantity,
+      };
+}
+
+List<TotalCostVariants> totalCostVariantsFromJson(String str) =>
+    List<TotalCostVariants>.from(
+        json.decode(str).map((x) => TotalCostVariants.fromJson(x)));
+
+String totalCostVariantsToJson(List<TotalCostVariants> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
+class TotalCostVariants {
+  TotalCostVariants({
+    required this.variantCost,
+    required this.variantQuantity,
+  });
+
+  String variantCost;
+  int variantQuantity;
+
+  factory TotalCostVariants.fromJson(Map<String, dynamic> json) =>
+      TotalCostVariants(
+        variantCost: json["variant_cost"],
+        variantQuantity: json["variant_quantity"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "variant_cost": variantCost,
+        "variant_quantity": variantQuantity,
+      };
+}

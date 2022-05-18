@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       color: Colors.black,
       debugShowCheckedModeBanner: false,
-      title: 'Mobile POS',
+      title: 'BIDA Solution',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: Splashscreen(),
     );

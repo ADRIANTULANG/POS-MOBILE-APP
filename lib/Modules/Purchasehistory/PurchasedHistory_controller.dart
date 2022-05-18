@@ -26,6 +26,9 @@ class PurchasedHistoryController extends GetxController {
   RxList<DailySalesForPrint> salestotalcost = <DailySalesForPrint>[].obs;
   RxList<ExpensesDaily> expensesDaily = <ExpensesDaily>[].obs;
 
+  RxList<TotalCostMainItems> total_cost_mainitems = <TotalCostMainItems>[].obs;
+  RxList<TotalCostVariants> total_cost_variants = <TotalCostVariants>[].obs;
+
   RxBool isLoadingHistory = true.obs;
   @override
   void onInit() async {
@@ -63,8 +66,14 @@ class PurchasedHistoryController extends GetxController {
   }
 
   get_sales_total_cost() async {
-    var result = await PurchasedHistoryApi.get_sales_total_cost_for_print();
-    salestotalcost.assignAll(result);
+    // var result = await PurchasedHistoryApi.get_sales_total_cost_for_print();
+    // salestotalcost.assignAll(result);
+    var result_total_cost_mainitems =
+        await PurchasedHistoryApi.getCostMainItems();
+    total_cost_mainitems.assignAll(result_total_cost_mainitems);
+    var result_total_cost_variants =
+        await PurchasedHistoryApi.getCostVariants();
+    total_cost_variants.assignAll(result_total_cost_variants);
   }
 
   get_sales_history_offline_mode() {
@@ -244,9 +253,23 @@ class PurchasedHistoryController extends GetxController {
 
   RxDouble count_total_Cost() {
     var total = 0.0;
-    for (var i = 0; i < salestotalcost.length; i++) {
-      total = total + double.parse(salestotalcost[i].orderTotalAmount);
+    // for (var i = 0; i < salestotalcost.length; i++) {
+    //   total = total + double.parse(salestotalcost[i].orderTotalAmount);
+    // }
+    for (var i = 0; i < total_cost_mainitems.length; i++) {
+      if (total_cost_mainitems[i].itemHasVariants == 0) {
+        total = total +
+            (total_cost_mainitems[i].itemQuantity *
+                double.parse(total_cost_mainitems[i].itemCost));
+      }
     }
+
+    for (var i = 0; i < total_cost_variants.length; i++) {
+      total = total +
+          (double.parse(total_cost_variants[i].variantCost) *
+              total_cost_variants[i].variantQuantity);
+    }
+
     return total.obs;
   }
 
@@ -391,6 +414,7 @@ class PurchasedHistoryController extends GetxController {
     // print(jsonEncode(Get.find<StorageService>().box.read('orderhistory')));
     // print(
     //     jsonEncode(Get.find<StorageService>().box.read('listofordereditems')));
+    isLoadingHistory(true);
     RxList<Orderhistorytransaction> orderhistorytransaction =
         <Orderhistorytransaction>[].obs;
     RxList<Orderlistofitems> orderlistofitems = <Orderlistofitems>[].obs;
@@ -404,7 +428,7 @@ class PurchasedHistoryController extends GetxController {
     }
 
     for (var i = 0; i < orderhistorytransaction.length; i++) {
-      String currentdate = DateTime.now().year.toString() +
+      String currentdate = await DateTime.now().year.toString() +
           "-" +
           DateTime.now().month.toString() +
           "-" +
@@ -424,7 +448,7 @@ class PurchasedHistoryController extends GetxController {
       for (var z = 0; z < orderlistofitems.length; z++) {
         if (orderlistofitems[z].ordernumber ==
             orderhistorytransaction[i].ordernumber) {
-          update_item_count(
+          await update_item_count(
               itemid: orderlistofitems[z].itemId,
               quantity: orderlistofitems[z].itemQuantity);
           var lastinsertedID = await CheckoutApi.save_items(
@@ -451,7 +475,7 @@ class PurchasedHistoryController extends GetxController {
                 j++) {
               if (orderlistofitems[z].itemListOfVariants[j].variantQuantity >
                   0) {
-                update_variant_count(
+                await update_variant_count(
                   itemid: orderlistofitems[z].itemId,
                   variantid:
                       orderlistofitems[z].itemListOfVariants[j].variantId,
@@ -462,6 +486,8 @@ class PurchasedHistoryController extends GetxController {
                   lastinsertedID: lastinsertedID,
                   variant_date_created: currentdate,
                   ordernumber: result,
+                  variant_cost:
+                      orderlistofitems[z].itemListOfVariants[j].variant_cost,
                   variant_discount:
                       orderlistofitems[z].itemListOfVariants[j].variantDiscount,
                   variant_discount_type: orderlistofitems[z]
@@ -494,11 +520,11 @@ class PurchasedHistoryController extends GetxController {
         }
       }
     }
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text('Succesfuly Sync'),
     ));
-    Get.find<StorageService>().box.remove('orderhistory');
-    Get.find<StorageService>().box.remove('listofordereditems');
+    await Get.find<StorageService>().box.remove('orderhistory');
+    await Get.find<StorageService>().box.remove('listofordereditems');
     await get_Sales_History();
   }
 
